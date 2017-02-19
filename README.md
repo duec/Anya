@@ -1,2 +1,2 @@
-# anya
-browser-based real time multiplayer game framework
+# Anya
+browser-based real time multiplayer game framework`
