@@ -38,16 +38,17 @@ $(function() {
   // Sets the client's username
   function setUsername () {
     username = cleanInput($usernameInput.val().trim());
-
+    var pathname = window.location.pathname
+    pathname = pathname.substring(pathname.lastIndexOf('/'))
     // If the username is valid
     if (username) {
       $loginPage.fadeOut();
       $chatPage.show();
       $loginPage.off('click');
       $currentInput = $inputMessage.focus();
-
+      
       // Tell the server your username
-      socket.emit('add user', username);
+      socket.emit('add user', {username: username, room: pathname});
     }
   }
 
@@ -271,12 +272,13 @@ $(function() {
   socket.on('reconnect', function () {
     log('you have been reconnected');
     if (username) {
-      socket.emit('add user', username);
+      var pathname = window.location.pathname
+      pathname = pathname.substring(pathname.lastIndexOf('/'))
+      socket.emit('add user', {username: username, room: pathname});
     }
   });
 
   socket.on('reconnect_error', function () {
     log('attempt to reconnect has failed');
   });
-
 });
